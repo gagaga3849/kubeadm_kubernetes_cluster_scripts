@@ -29,6 +29,7 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docke
 sudo apt update
 sudo apt install -y docker-ce docker-ce-cli containerd.io
 
+
 sudo mkdir -p /etc/docker
 cat <<EOF | sudo tee /etc/docker/daemon.json
 {
@@ -46,6 +47,22 @@ sudo systemctl restart docker
 
 containerd config default > /etc/containerd/config.toml
 
-echo "update /etc/containerd/config.toml: SystemdCgroup = true and: sudo systemctl restart containerd"
+#!/bin/bash
+
+# File path
+CONFIG_FILE="/etc/containerd/config.toml"
+
+# Check if SystemdCgroup exists and update or add it
+if grep -q '^SystemdCgroup' "$CONFIG_FILE"; then
+    # Update the line
+    sudo sed -i 's/^SystemdCgroup = .*/SystemdCgroup = true/' "$CONFIG_FILE"
+else
+    # Add the setting at the end of the file
+    echo "SystemdCgroup = true" | sudo tee -a "$CONFIG_FILE" > /dev/null
+fi
+
+# Restart containerd to apply changes
+sudo systemctl restart containerd
+
 
 
