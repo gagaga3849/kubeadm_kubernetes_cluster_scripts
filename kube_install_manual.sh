@@ -58,7 +58,7 @@ cat <<EOF
 EOF
 
 # Restart containerd to apply changes
-echo "sudo systemctl restart containerd"
+echo "restart:  sudo systemctl restart containerd"
 
 
 
