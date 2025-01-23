@@ -45,24 +45,20 @@ EOF
 sudo systemctl daemon-reload
 sudo systemctl restart docker
 
-containerd config default > /etc/containerd/config.toml
 
-#!/bin/bash
 
 # File path
-CONFIG_FILE="/etc/containerd/config.toml"
-
-# Check if SystemdCgroup exists and update or add it
-if grep -q '^SystemdCgroup' "$CONFIG_FILE"; then
-    # Update the line
-    sudo sed -i 's/^SystemdCgroup = .*/SystemdCgroup = true/' "$CONFIG_FILE"
-else
-    # Add the setting at the end of the file
-    echo "SystemdCgroup = true" | sudo tee -a "$CONFIG_FILE" > /dev/null
-fi
+echo " updade /etc/containerd/config.toml"
+echo "it should be like this:"
+echo "                                                      "
+cat <<EOF
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+    SystemdCgroup = true
+EOF
 
 # Restart containerd to apply changes
-sudo systemctl restart containerd
+echo "sudo systemctl restart containerd"
 
 
 
