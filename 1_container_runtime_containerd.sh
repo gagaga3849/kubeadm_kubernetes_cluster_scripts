@@ -30,8 +30,14 @@ sudo apt update
 sudo apt install -y containerd.io
 
 
-containerd config default > /etc/containerd/config.toml
+#containerd config default > /etc/containerd/config.toml
 
-echo "update /etc/containerd/config.toml: Systemcgroup=true"
+echo "update: sudo vi /etc/containerd/config.toml: Systemcgroup=true"
+echo "                                                                  "
+echo '[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+    SystemdCgroup = true'
+echo "                                                                   "
+echo "sudo systemctl restart containerd"
 
 ps -p 1
