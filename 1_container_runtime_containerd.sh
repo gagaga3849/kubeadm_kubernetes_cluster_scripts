@@ -27,7 +27,7 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docke
 
 # Install Docker
 sudo apt update
-sudo apt install -y containerd.io
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 
 #containerd config default > /etc/containerd/config.toml
